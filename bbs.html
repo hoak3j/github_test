@@ -1,0 +1,177 @@
+<?php
+session_start();
+include_once("./admin/lib/common.php");
+include_once("./include/header.html");
+	
+	//  일반쿼리
+    $sql_common = " FROM `tbl_bbs` WHERE (1) ";
+	$sql_order = " order by bbs_idx desc ";
+	
+	// 검색 옵션
+	$q_kind =  $_GET['ct'];  //  게시판 구분
+	
+    $sql_search = "";
+    
+	if($q_kind) {
+		$sql_search .= " and `bbs_kind` = '$q_kind'";
+	}
+	
+	//전체 카운터
+	$sql1 = "select count(bbs_idx) as cnt {$sql_common}";
+	$row1 = sql_fetch($sql1);
+	$total_count = $row1['cnt'];
+	
+	
+	//검색 카운터
+	$sql = "select count(*) as cnt {$sql_common} {$sql_search} ";
+	$row = sql_fetch($sql);
+	$search_count = $row['cnt'];
+	
+	$pageNum = (int)$_GET['pageNum'];
+	
+	if(!$pageNum) {
+		$rows = 10;
+	} else {
+		$rows = $pageNum;
+	}
+	
+	$page = (int)$_GET['page'];
+    if(!$page) $page = 1;
+	
+	$qstr = "ct=".$q_kind."&pageNum=".$pageNum."&page=".$page;
+
+	
+	$total_page  = ceil($search_count / $rows);  // 전체 페이지 계산
+	//if ($page < 1) { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이지)
+	$from_record = ($page - 1) * $rows; // 시작 열을 구함
+	
+	$list_page_rows = 10;
+	//순번
+	$list_num = $search_count - ($page - 1) * $list_page_rows;
+	
+	$sql = " select bbs_idx,bbs_kind,bbs_sub,m_id,bbs_subject,bbs_hit,bbs_regdate {$sql_common} {$sql_search} {$sql_order} limit {$from_record}, {$rows} ";
+	$result = sql_query($sql);
+?>
+<!-- page title start -->
+    <div class="page-title-area bg-overlay" style="background-image: url('./assets/img/banner_1.png')">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                    <div class="breadcrumb-inner">
+                        <h2 class="page-title">게시판</h2>
+                        <h5 class="page-comment">학급의 공지사항과 수업 일정, 알림장 등을 확인할 수 있습니다.</h5>
+                        <div class="text-right">
+                            <ul class="page-list">
+                                <li><a href="/">Home</a></li>
+                                <li><a href="classroom">Class Room</a></li>
+                                <li>게시판</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- page title end -->
+
+    <!--bbs-area start-->
+    <div class="bbs-area pd-top-60 pd-bottom-100">
+        <div class="container">
+
+            <div class="section-title">
+                <div class="row">
+                    <div class="col-lg-3 text-lg-center">
+                        <h5 class="sub-title"><a href="bbs?ct=notice">공지사항</a></h5>
+                    </div>
+                    <div class="col-lg-3 text-lg-center">
+                        <h5 class="sub-title"><a href="bbs?ct=schedule">수업일정</a></h5>
+                    </div>
+                    <div class="col-lg-3 text-lg-center">
+                        <h5 class="sub-title"><a href="bbs?ct=alarm">알림장</a></h5>
+                    </div>
+                    <div class="col-lg-3 text-lg-center">
+                        <h5 class="sub-title"><a href="bbs?ct=qna">문의방</a></h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="table-info">
+                        <th scope="col" class="text-center">NO</th>
+                        <th scope="col">구분</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">작성자</th>
+                        <th scope="col">조회수</th>
+                        <th scope="col">작성일</th>
+                        
+                    </tr>
+                    </thead>
+	                <?
+		                for ($i=0; $row=sql_fetch_array($result); $i++) {
+		                $num = $list_num - $i;
+		
+		                $bbs_idx = $row['bbs_idx'];
+		                $bbs_kind = $row['bbs_kind'];
+		                $bbs_sub = $row['bbs_sub'];
+		                $bbs_writer = $row['m_id'];
+		                $bbs_subject = $row['bbs_subject'];
+		                $bbs_hit = $row['bbs_hit'];
+		                $bbs_regdate = $row['bbs_regdate'];
+		
+		                if($bbs_kind == "notice") $bbs_kind_str = "공지사항";
+		                if($bbs_kind == "schedule") $bbs_kind_str = "수업일정";
+		                if($bbs_kind == "alarm") $bbs_kind_str = "알림장";
+		                if($bbs_kind == "qna") $bbs_kind_str = "문의방";
+		                if($bbs_kind == "faq") $bbs_kind_str = "FAQ";
+	                ?>
+                    <tr>
+                        <td class="text-center"><?=$num?></td>
+                        <td><?=$bbs_kind_str?></td>
+                        <td><a href="read?id=<?=$bbs_idx?>"><?=$bbs_subject?></a></td>
+                        <td><?=$bbs_writer?></td>
+                        <td><?=$bbs_hit?></td>
+                        <td><?=date("Y-m-d",strtotime($bbs_regdate))?></td>
+                    </tr>
+		            <?  } ?>
+                </table>
+
+            </div>
+
+            <div class="paging" style="margin-bottom: 30px;">
+                <div class="text-center col-md-10"><?php echo get_paging(5, $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$qstr.'&amp;page='); ?></div>
+            </div>
+            <!--
+            <nav class="td-page-navigation text-center mb-5 mb-lg-0">
+                <ul class="pagination">
+                    <li class="pagination-arrow"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+                    <li><a class="active" href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li class="pagination-arrow"><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                </ul>
+            </nav>
+            -->
+        </div>
+    </div>
+    <!--bbs-area end-->
+
+<?php
+include_once("./include/footer.html");
+?>
+
+    <!-- back to top area start -->
+    <div class="back-to-top">
+        <span class="back-top"><i class="fa fa-angle-up"></i></span>
+    </div>
+    <!-- back to top area end -->
+
+
+    <!-- all plugins here -->
+    <script src="assets/js/vendor.js"></script>
+    <!-- main js  -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

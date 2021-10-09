@@ -1,0 +1,256 @@
+<?php
+
+include_once("./admin/lib/common.php");
+
+
+include_once("./include/header.html");
+	
+?>
+<!-- page title start -->
+<div class="page-title-area bg-overlay" style="background-image: url('./assets/img/banner_1.png')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-inner">
+                    <h2 class="page-title">마이룸</h2>
+                    <h5 class="page-comment">나의 수강정보 등 한 곳에서 확인하세요.</h5>
+                    <div class="text-right">
+                        <ul class="page-list">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="classroom">Class Room</a></li>
+                            <li>마이룸</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- page title end -->
+
+<!-- single blog page -->
+<div class="main-blog-area pd-top-120 pd-bottom-90">
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <!-- sidebar -->
+            <div class="col-lg-3 col-12">
+                <div class="td-sidebar">
+                    <div class="widget widget-recent-post">
+                        <h4 class="widget-title">마이룸</h4>
+                        <ul>
+                            <li>
+                                <div class="media">
+                                    <div class="media-body align-self-center">
+                                        <h5 class="title"><a href="myroom">수업목록</a></h5>
+                                    </div>
+                                </div>
+                            </li>
+                            <ul>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-body align-self-center">
+                                            <h5 class="title"><a href="myinfo">프로필</a></h5>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-body align-self-center">
+                                            <h5 class="title"><a href="faq">FAQ</a></h5>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </ul>
+                    </div>
+
+                    <div class="widget widget-recent-post">
+                        <h4 class="widget-title">게시판</h4>
+                        <ul>
+                            <li>
+                                <div class="media">
+                                    <div class="media-body align-self-center">
+                                        <h5 class="title"><a href="bbs">공지사항</a></h5>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="media">
+                                    <div class="media-body align-self-center">
+                                        <h5 class="title"><a href="bbs">수업일정</a></h5>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="media">
+                                    <div class="media-body align-self-center">
+                                        <h5 class="title"><a href="bbs">알림장</a></h5>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="media">
+                                    <div class="media-body align-self-center">
+                                        <h5 class="title"><a href="bbs">문의방</a></h5>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+<?php
+include_once ('./include/category.html');
+?>
+
+                </div>
+            </div>
+            <!-- /.sidebar -->
+            <div class="col-lg-9 col-12">
+                <div class="course-details-page">
+                    <div class="course-details-meta-list">
+                        <div class="row bg-gray pd-20">
+                            <div class="col-md-3 align-self-center">
+                                <div class="media">
+                                    <div class="media-body align-self-center">
+                                        <span>이름</span>
+                                        <h6><?=$_SESSION['MEMBER_NAME']?></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-4 mt-md-0">
+                                <div class="row">
+                                    <div class="col-md-6 align-self-center">
+                                        <span>소속</span>
+                                        <h6><?=$_SESSION['MEMBER_GROUP']?></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 mt-4 mt-md-0 align-self-center text-md-right">
+                                <div class="media">
+                                    <div class="media-body align-self-center">
+                                        <span>등록일</span>
+                                        <h6><?=$_SESSION['MEMBER_DATE']?></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr>
+                    <div class="course-details-content">
+                        <h4 class="title">수업목록</h4>
+                        <table class="table">
+                            <thead>
+                            <tr class="table-info">
+                                <th scope="col" class="text-center">NO</th>
+                                <th scope="col">카테고리</th>
+                                <th scope="col">수업명</th>
+                                <th scope="col">작성일</th>
+                                <th scope="col">상태</th>
+                            </tr>
+                            </thead>
+                            
+                            <?
+	                            for ($i = 0; $row = sql_fetch_array($result); $i++) {
+                                    
+                                    $idx = $row['idx'];
+		                            $class_idx = $row['class_idx'];
+		                            $c_name = $row['c_name'];
+		                            $class_name = $row['class_name'];
+		                            $class_stime = $row['class_stime'];
+		                            $join_url = $row['join_url'];
+		                            $class_etime = $row['class_etime'];
+		                            $class_status = $row['class_status'];
+		
+		                            if ($class_status == '0') $class_status_str = '대기'; $sicon = "sbox02";
+		                            if ($class_status == '1') $class_status_str = '진행예정'; $sicon = "sbox01";
+		                            if ($class_status == '2') $class_status_str = '진행중'; $sicon = "sbox02";
+		                            if ($class_status == '3') $class_status_str = '종료'; $sicon = "sbox01";
+                            ?>
+                            
+                            <tr>
+                                <td class="text-center">5</td>
+                                <td><?=$c_name?></td>
+                                <td><a href="<?=$join_url?>" target="_blank"><?=$class_name?></a></td>
+                                <td><?=$class_stime?>~</td>
+                                <td><?=$class_status_str?></td>
+                            </tr>
+                            <? } ?>
+                        </table>
+
+                        <hr>
+                        <div class="single-list-inner style-check">
+                            <h4>수업 주제</h4>
+                            <ul>
+                                <li><i class="fa fa-check"></i>게임 프로그래머로 취업할 때 준비할 것들</li>
+                                <li><i class="fa fa-check"></i>게임 업계에 대한 이해도</li>
+                                <li><i class="fa fa-check"></i>기초 알고리즘</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="course-details-content">
+                        <h4 class="title">상세정보</h4>
+                        <div class="course-feature-area">
+                            <ul class="row">
+                                <li class="col-6">
+                                    강좌수
+                                </li>
+                                <li class="col-6">
+                                    <span>12</span>
+                                </li>
+                                <li class="col-6">
+                                    평가 테스트
+                                </li>
+                                <li class="col-6">
+                                    <span>있음</span>
+                                </li>
+                                <li class="col-6">
+                                    수업시간
+                                </li>
+                                <li class="col-6">
+                                    <span>3 시간</span>
+                                </li>
+                                <li class="col-6">
+                                    수업수준
+                                </li>
+                                <li class="col-6">
+                                    <span>모든 사용자</span>
+                                </li>
+                                <li class="col-6">
+                                    언어
+                                </li>
+                                <li class="col-6">
+                                    <span>한국어</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- single blog page end -->
+
+
+<?php
+include_once("./include/footer.html");
+?>
+
+<!-- back to top area start -->
+<div class="back-to-top">
+    <span class="back-top"><i class="fa fa-angle-up"></i></span>
+</div>
+<!-- back to top area end -->
+
+
+<!-- all plugins here -->
+<script src="assets/js/vendor.js"></script>
+<!-- main js  -->
+<script src="assets/js/main.js"></script>
+</body>
+</html>

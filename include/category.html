@@ -1,0 +1,38 @@
+<!--- 카테고리 START -------------------------------->
+<?php
+//카테고리 데이터 불러오기
+$filename = "./data/category.json";
+if(file_exists($filename)){
+    $fp = fopen($filename,"r");
+    $json_category = fread($fp, filesize($filename));
+} else {
+    echo "json_file_Error";
+}
+fclose($fp);
+
+$data_array = json_decode($json_category, true);
+
+// handle error
+if (json_last_error() > 0) {
+    echo json_last_error_msg() . PHP_EOL;
+}
+?>
+<div class="widget widget_catagory">
+    <h4 class="widget-title">카테고리</h4>
+    <ul class="catagory-items">
+        <?php
+        $i = 0;
+        while ($i < count($data_array))
+        {
+            $idx = $data_array[$i]['idx'];
+            $category = $data_array[$i]['category'];
+            $count = $data_array[$i]['count'];
+            ?>
+            <li><a href="classroom?ct=<?=$idx?>"><i class="fa fa-angle-right"></i><?=$category?> (<?=$count?>)</a></li>
+            <?php
+            $i++;
+        }
+        ?>
+    </ul>
+</div>
+<!--- 카테고리 END -------------------------------->

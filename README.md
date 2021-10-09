@@ -1,2 +1,23 @@
-# github_test
-dev lecture for github
+# liveduDev
+
+Live Edu ::  LivEdu
+
+## Getting Started
+
+1. 이 프로젝트는 리액트 + PHP + MariaDB로 제작하기 (필요에 따라 변경될 수 있음)
+2. WebRTC 기반 화상회의 솔루션 uprism.io API 사용하여 LivEdu 서비스에 반영하기
+3. LivEdu 서비스는 확장성을 염두하고 기획하기
+4. 기타 등등.... 내용 추가하기
+5. 작업량이 많고 확장성과 마케팅을 위한 검색엔진 최적화(SEO) 때문에 PHP로 언어 전환
+
+### 혼자 작업하기 외롭....
+
+### 진척률 (2021.08.13 현재)
+
+- 사용자페이지 (90%)  ▨▨▨▨▨▨▨▨▨▣
+- 관리자페이지 (80%)  ▨▨▨▨▨▨▨▨▣▣
+
+
+
+
+

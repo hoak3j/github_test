@@ -1,0 +1,9 @@
+[
+  {"idx": "1", "category": "개발/프로그래밍", "count": "03"},
+  {"idx": "2","category": "보안/네트워크", "count": "07"},
+  {"idx": "3","category": "데이터사이언스", "count": "13"},
+  {"idx": "4","category": "크리에이티브", "count": "25"},
+  {"idx": "5","category": "직무/마케팅", "count": "11"},
+  {"idx": "6","category": "교양", "count": "50"},
+  {"idx": "7","category": "커리어", "count": "11"}
+]

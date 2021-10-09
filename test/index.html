@@ -1,0 +1,162 @@
+<?php
+include_once('../lib/common.php');
+?>
+
+<?php
+
+$access_token = get_AccessToken();
+
+
+
+
+echo "시간 : " .date("Y-m-d H:i:s");
+echo "<br>";
+echo "업체명 : " . $root_name;
+echo "<br>";
+echo "사용자 : " . $userId ." <- 관리자 아이디";
+echo "관리자 아이디에 따라 주소록 등이 변경";
+echo "<p>";
+echo "Access Token : " . $access_token;
+echo "<br>";
+
+
+//$resource = getResource($access_token);
+
+
+/*
+$resource = create_Conference($access_token);
+echo "create_Conference  <br>";
+print_r2($resource);
+
+echo "<p>===================================================================<p>";
+
+$resource = get_Conference($access_token);
+echo "get_Conference <br>";
+print_r2($resource);
+*/
+
+
+//$userId = "kobic.dev@gmail.com";
+//$roomId = "F350D077-56CC-4188-BFA8-A896B4302EF6";
+
+//echo "delete_Conference <br>";
+//$resource = delete_Conference($access_token);
+//print_r2($resource);
+
+
+
+/*
+
+$addressIdx = "60AF53E4-EA5A-448C-B7AE-370EDFD7BC5A";
+$address_user_name = "감비야";
+$email= "test1234@nate.com";
+$class_name = "과장"; //직책
+$post = "소속";  //소속
+
+$groupName = "탈퇴회원";
+$group_name = "가능고객";
+
+$roomId = "5674E5C4-D176-4AA6-8FCC-E78D88EA5323";
+$mail_list = "전홍식|kobic@nate.com,전팀장|kobic72@gmail.com,개발자|kobic.dev@gmail.com";
+
+$user_id = "kobic.dev@gmail.com";
+$user_name = "중년개발자";
+$email = "kobic72@naver.com";
+
+$from = "20210701000001";
+$to = date("YmdHis");*/
+
+
+
+/*
+$user_id = "kobic72test";
+$resource = delete_User($access_token);
+echo "delete_User <br>";
+print_r2($resource);
+*/
+
+//$user_id = "kobic72@gmail.com";
+//$email = "kobic72@gmail.com";
+//$user_name = "전개발2";
+
+
+//$resource = update_User($access_token);
+//echo "update_User <br>";
+//print_r2($resource);
+
+
+
+//echo "<p>===================================================================<p>";
+//$resource = create_dept($access_token);
+//echo "create_dept <br>";
+//print_r2($resource);
+//exit;
+
+$new_array = array(
+    "clear" => "0",
+    "users" => array (
+        [
+            "userId" => "kobic72@gmail.com",
+            "userName" => "개발자",
+            "userRole" => "0",
+            "className" => "대리",
+            "deptId" => "classroom3"
+        ]
+    )
+);
+
+
+/*echo "<p>===================================================================<p>";
+$resource = post_Organization($access_token);
+echo "post_Organization <br>";
+print_r2($resource);
+exit;
+
+
+echo "<p>===================================================================<p>";
+$resource = create_dept($access_token);
+echo "create_dept <br>";
+print_r2($resource);
+exit;
+echo "<p>===================================================================<p>";
+$resource = update_subUser($access_token);
+echo "update_subUser <br>";
+print_r2($resource);*/
+
+echo "<p>===================================================================<p>";
+$resource = get_subUserList($access_token);
+echo "get_subUserList <br>";
+print_r2($resource);
+
+echo "<p>===================================================================<p>";
+$resource = get_AddressGroupList($access_token);
+echo "get_AddressGroupList <br>";
+print_r2($resource);
+
+echo "<p>===================================================================<p>";
+$resource = get_AddressList($access_token);
+echo "get_AddressList <br>";
+print_r2($resource);
+
+
+echo "<p>===================================================================<p>";
+$resource = get_ConferenceStatistics($access_token);
+echo "get_ConferenceStatistics <br>";
+print_r2($resource);
+
+
+echo "<p>===================================================================<p>";
+$resource = get_ConferenceList($access_token);
+echo "get_ConferenceList <br>";
+print_r2($resource);
+
+
+//$parse_data = json_encode($resource);
+//echo $parse_data;
+//echo $resource;
+echo "<p>";
+//$parse_data = json_encode($resource);
+
+?>
+
+<hr>

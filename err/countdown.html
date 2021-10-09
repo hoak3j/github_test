@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>사이트 오픈 준비 중</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="countdown.css" type="text/css">
+</head>
+<body>
+<style>
+    .center {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+        text-align: center;
+        color: white;
+    }
+</style>
+<div id="content">
+<?php
+include_once "../lib/common.php";
+
+    $count_date = $_POST['edate'];
+    if(!$count_date) {
+        $count_date = COUNT_DATE;
+    }
+?>
+    <h1 class="center" style="margin-top: 200px;"><?=BASIC_NAME?></h1>
+    <h2 class="center">Open  :: [ <?=$count_date?> 10:00 AM ]</h2>
+    <div class="center" style="margin-left: calc(100vh - 480px);"><time><?=$count_date?>T10:00:00+0900</time></div><!-- UTC -->
+    <h3 class="center" style="margin-top: 10px;"><a href="<?=BASIC_URL?>">goto to site</a></h3>
+    <h3 class="center" style="margin-top: 10px;">접근IP : <? echo $_SERVER['REMOTE_ADDR']; ?></h3>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="./countdown.js"></script>
+
+<script>
+    window.jQuery(function ($) {
+        "use strict";
+
+        $('time').countDown({
+            with_separators: false
+        });
+        $('.alt-1').countDown({
+            css_class: 'countdown-alt-1'
+        });
+        $('.alt-2').countDown({
+            css_class: 'countdown-alt-2'
+        });
+
+    });
+</script>
+
+</body>
+</html>

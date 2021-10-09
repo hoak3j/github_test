@@ -1,0 +1,122 @@
+<?php
+session_start();
+include_once("./admin/lib/common.php");
+include_once("./include/header.html");
+	
+	$idx = (int)$_GET['id'];
+	if(!$idx) {
+		alertMove('정상적인 접근이 아닙니다.', "bbs");
+		exit;
+	}
+	
+    //조회수 + 1
+    $sql_update = "UPDATE `tbl_bbs` SET bbs_hit = bbs_hit + 1 WHERE bbs_idx = '{$idx}'";
+    sql_query($sql_update);
+    
+    
+	$sql = "select * from `tbl_bbs` where bbs_idx = '{$idx}'";
+	$row = sql_fetch($sql);
+	
+	//echo $sql . "<p>";
+	
+	$bbs_idx = $row['bbs_idx'];
+	$bbs_kind = $row['bbs_kind'];
+	
+	if($bbs_kind == 'notice')  $bbs_kind_str = '공지사항';
+	if($bbs_kind == 'schedule')  $bbs_kind_str = '수업일정';
+	if($bbs_kind == 'alarm')  $bbs_kind_str = '알림장';
+	if($bbs_kind == 'qna')  $bbs_kind_str = '문의방';
+	if($bbs_kind == 'faq')  $bbs_kind_str = 'FAQ';
+	
+	$bbs_sub = $row['bbs_sub'];
+	$bbs_subject = $row['bbs_subject'];
+	$bbs_contents = $row['bbs_contents'];
+	$bbs_writer = $row['m_id'];
+	$bbs_answer = $row['bbs_answer'];
+	$g_group = $row['g_group'];
+	$bbs_status = $row['bbs_status'];
+	$bbs_hit = $row['bbs_hit'];
+	$bbs_ip = $row['bbs_ip'];
+	$bbs_regdate = $row['bbs_regdate'];
+?>
+<!-- page title start -->
+    <div class="page-title-area bg-overlay" style="background-image: url('./assets/img/banner_1.png')">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                    <div class="breadcrumb-inner">
+                        <h2 class="page-title">게시판</h2>
+                        <h5 class="page-comment">학급의 공지사항과 수업 일정, 알림장 등을 확인할 수 있습니다.</h5>
+                        <div class="text-right">
+                            <ul class="page-list">
+                                <li><a href="/">Home</a></li>
+                                <li><a href="classroom">Class Room</a></li>
+                                <li>게시판</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- page title end -->
+
+    <!--read-area start-->
+    <div class="read-area pd-top-60 pd-bottom-100">
+        <div class="container">
+
+            <div class="section-title">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <h2 class="sub-title"><?=$bbs_kind_str?></h2>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="bbs-subject col-lg-10">
+                    <h4><?=$bbs_subject?></h4>
+                </div>
+                <div class="bbs-date col-lg-2 text-right">hit : <?=$bbs_hit?></div>
+            </div>
+            <div class="row">
+                <div class="bbs-writer col-lg-6">
+                    담당자 : <?=$bbs_writer?>
+                </div>
+                <div class="bbs-date col-lg-6 text-right"><?=date("Y-m-d",strtotime($bbs_regdate))?></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="bbs-content col-lg-12">
+                    내용
+	                <?=$bbs_contents?>
+                </div>
+            </div>
+            <hr>
+            <div class="row bbs-modify">
+                <div class="col-lg-6"></div>
+                <div class="col-lg-6 text-right">
+                    <a class="btn btn-border-white" href="bbs">목록</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--read-area end-->
+
+<?php
+include_once("./include/footer.html");
+?>
+
+    <!-- back to top area start -->
+    <div class="back-to-top">
+        <span class="back-top"><i class="fa fa-angle-up"></i></span>
+    </div>
+    <!-- back to top area end -->
+
+
+    <!-- all plugins here -->
+    <script src="assets/js/vendor.js"></script>
+    <!-- main js  -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

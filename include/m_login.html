@@ -1,0 +1,254 @@
+<script src="/assets/js/login.js"></script>
+<!-- login modal start -->
+<div class="loginModal">
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered m-auto" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-md-5">
+                    <div class="row justify-content-center pd-bottom-30">
+                            <a href="/"><img src="assets/img/logo.png" height="100" alt="img"></a>
+                    </div>
+
+                    <!-- 로그인 영역 start-->
+                    <div class="login_area">
+                            <div class="login-title text-center pd-bottom-30">
+                                <h4>로그인해 주세요.</h4>
+                            </div>
+                            <div class="d-flex flex-column text-center">
+                                <form>
+                                    <div class="form-group">
+                                        <input id="m_id" class="form-control" placeholder="아이디">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" id="m_pw" class="form-control" placeholder="비밀번호">
+                                    </div>
+                                    <button type="button" id="login_ok" class="btn btn-info btn-block btn-round">로그인</button>
+                                </form>
+                                <div class="row mg-top-20 pd-bottom-30">
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="save_id">
+                                            <label class="form-check-label" for="save_id">아이디 저장</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 text-right">
+                                        <a href="javascript:void(0)" id="find_id">아이디 찾기</a> | <a href="javascript:void(0)" id="find_pw">비밀번호 찾기</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center pd-bottom-30">
+                                <div class="signup-section"><a href="#" class="text-info">서비스 이용약관</a> | <a href="#" class="text-info">개인정보처리방침</a></div>
+                            </div>
+                    </div>
+                    <!-- 로그인 영역 end-->
+
+                    <!-- 아이디 찾기 영역 start-->
+                    <div class="find_id_area" style="display:none;">
+                        <div class="login-title text-center pd-bottom-30">
+                            <h4>아이디 찾기</h4>
+                        </div>
+                        <div class="d-flex flex-column text-center">
+                            <form>
+                                <div  class="login-label col-md-12 text-left">
+                                <span>이메일 입력</span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" id="m_email" placeholder="이메일 주소를 정확하게 입력해 주세요.">
+                                </div>
+
+                                <div class="row mg-top-20 pd-bottom-30">
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <button type="button" id="find_id_prc" class="btn btn-info btn-block btn-round">확 인</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <button type="reset" id="find_id_close" class="btn btn-light btn-block btn-round">취 소</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center pd-bottom-30">
+                            <div class="signup-section">
+                                - 가입할 때 등록하신 메일 주소를 정확히 입력하시고 확인 버튼을 클릭해 주세요.<br>
+                                - 메일 주소를 잊으신 경우 본사로 연락 주시기 바랍니다.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 아이디 찾기 modal end -->
+
+                    <!-- 비밀번호 찾기 영역 start-->
+                    <div class="find_pw_area" style="display:none;">
+                        <div class="login-title text-center pd-bottom-30">
+                            <h4>비밀번호 찾기</h4>
+                        </div>
+                        <div class="d-flex flex-column text-center">
+                            <form>
+                                <div  class="login-label col-md-12 text-left">
+                                    <span>이메일 입력</span>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" id="m_email_pw" placeholder="이메일 주소를 정확하게 입력해 주세요.">
+                                </div>
+                                <div  class="login-label col-md-12 text-left">
+                                    <span>아이디 입력</span>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" id="m_id_pw" placeholder="아이디를 정확하게 입력해 주세요.">
+                                </div>
+                                <div class="row mg-top-20 pd-bottom-30">
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <button type="button" id="find_pw_prc" class="btn btn-info btn-block btn-round">확 인</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <button type="reset" id="find_pw_close" class="btn btn-light btn-block btn-round">취 소</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center pd-bottom-30">
+                            <div class="signup-section">
+                                - 가입할 때 등록하신 아이디와 메일 주소를 정확히 입력하시고 확인 버튼을 클릭해 주세요.<br>
+                                - 확인 버튼을 누르면 기재하신 메일로 임시 비밀번호가 발급됩니다.<br>
+                                - 메일 주소를 잊으신 경우 본사로 연락 주시기 바랍니다.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 비밀번호 찾기 modal end -->
+
+                    <!-- 아이디 찾기 결과 영역 start-->
+                    <div class="find_id_result_area" style="display:none;">
+
+                        <div class="find_id_success" style="display:none;">
+                            <div id="login-result" class="text-center pd-top-30 pd-bottom-30">
+                                <h4>고객님의 회원 정보와 일치하는 아이디 입니다.</h4>
+                            </div>
+
+                            <div class="d-flex flex-column text-center">
+                                <div id="result-id" class="login-label col-md-12 pd-bottom-30">
+                                    <h3>find id</h3>
+                                </div>
+
+                                    <form>
+                                    <div class="row mg-top-20 pd-bottom-60">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <button type="button" id="id_login_retry" class="btn btn-info btn-block btn-round">로그인하기</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <button type="reset" id="find_pw" class="btn btn-light btn-block btn-round">비밀번호 찾기</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="find_id_fail" style="display:none;">
+                            <div id="login-result" class="text-center pd-top-30 pd-bottom-60">
+                                <h4>입력하신 정보와 일치하는 고객정보가 없습니다.<p>다시 한번 확인해 주시기 바랍니다.</h4>
+                            </div>
+
+                            <div class="d-flex flex-column text-center">
+                                <form>
+                                    <div class="row mg-top-20 pd-bottom-60">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <button type="button" id="find_id_retry" class="btn btn-light btn-block btn-round">다시 입력</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <button type="reset" id="main_proc" class="btn btn-light btn-block btn-round">메인 화면으로</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer d-flex justify-content-center pd-bottom-30">
+                            <div class="signup-section">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 아이디 찾기 결과 영역 end -->
+
+                    <!-- 비밀번호 찾기 결과 영역 start-->
+                    <div class="find_pw_result_area" style="display:none;">
+
+                        <div class="find_pw_success" style="display:none;">
+                            <div id="login-result" class="text-center pd-top-30 pd-bottom-30">
+                                <h4><span id="result-pw"></span> 메일로 임시 비밀번호가 발급되었습니다.<br>메일함을 확인해 주시기 바랍니다.</h4>
+                            </div>
+
+                            <div class="d-flex flex-column text-center">
+                                  <form>
+                                    <div class="row mg-top-20 pd-bottom-60">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <button type="button" id="pw_login_retry" class="btn btn-info btn-block btn-round">로그인하기</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <button type="reset" id="id_main_proc" class="btn btn-light btn-block btn-round">메인 화면으로</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="find_pw_fail" style="display:none;">
+                            <div id="login-result" class="text-center pd-top-30 pd-bottom-60">
+                                <h4>입력하신 정보와 일치하는 고객정보가 없습니다.<p>다시 한번 확인해 주시기 바랍니다.</h4>
+                            </div>
+
+                            <div class="d-flex flex-column text-center">
+
+                                <form>
+                                    <div class="row mg-top-20 pd-bottom-60">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <button type="button" id="find_pw_retry" class="btn btn-light btn-block btn-round">다시 입력</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <button type="reset" id="pw_main_proc" class="btn btn-light btn-block btn-round">메인 화면으로</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer d-flex justify-content-center pd-bottom-30">
+                            <div class="signup-section">
+                                - 메일이 도착하지 않은 경우 스팸 메일함을 확인해 주세요.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 비밀번호 찾기 결과 영역 end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- login modal end -->
+

@@ -1,0 +1,275 @@
+<?php
+	session_start();
+	include_once("./admin/lib/common.php");
+	include_once("./include/header.html");
+	
+	$type = $_GET['type'];
+ 
+	//  일반쿼리
+	if ($_SESSION['MEMBER_LEVEL'] == '5') {
+		$sql_common = " FROM `tbl_class`  WHERE (1) ";
+	} else {
+		//$sql_common = " FROM `tbl_class` WHERE g_group = '{$_SESSION['MEMBER_GROUP']}' ";
+		$sql_common = " FROM `tbl_class` WHERE (1) ";
+	}
+	$sql_order = " order by c_idx desc ";
+	
+	
+	$sql = "select count(*) as cnt {$sql_common}";
+	$row = sql_fetch($sql);
+	$total_count = $row['cnt'];
+	
+	$pageNum = (int)$_GET['pageNum'];
+	
+	if (!$pageNum) {
+		$rows = 10;
+	} else {
+		$rows = $pageNum;
+	}
+	
+	$page = (int)$_GET['page'];
+	
+	if (!$page) {
+		$page = 1;
+	}
+	
+	$qstr = "pageNum=" . $pageNum . "&page=" . $page;
+	
+	
+	$total_page = ceil($total_count / $rows);  // 전체 페이지 계산
+	if ($page < 1) {
+		$page = 1;
+	} // 페이지가 없으면 첫 페이지 (1 페이지)
+	$from_record = ($page - 1) * $rows; // 시작 열을 구함
+	
+	$list_page_rows = 10;
+	//순번
+	$list_num = $total_count - ($page - 1) * $list_page_rows;
+	
+	$sql = " select * {$sql_common} {$sql_order} limit {$from_record}, {$rows} ";
+	$result = sql_query($sql);
+?>
+<!-- page title start -->
+<div class="page-title-area bg-overlay" style="background-image: url('./assets/img/banner_1.png')">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="breadcrumb-inner">
+                    <h2 class="page-title">Class room</h2>
+                    <h5 class="page-comment">전체 수업 목록입니다.</h5>
+                    <div class="text-right">
+                        <ul class="page-list">
+                            <li><a href="/">Home</a></li>
+                            <li>Class Room</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- page title end -->
+
+<!--course-area start-->
+<div class="course-area pd-top-60 pd-bottom-100">
+    <div class="container">
+
+        <div class="section-title">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2 class="title">전체 수업 목록</h2>
+                    <h5 class="sub-title">추천순</h5>
+                </div>
+                <div class="col-lg-4 text-lg-right">
+	                <? if($type == "list") { ?>
+                        <a class="btn btn-border-black" href="classroom">카드형식으로 보기</a>
+                    <? } else { ?>
+                        <a class="btn btn-border-black" href="classroom?type=list">목록으로 보기</a>
+                    <? } ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+	        <? if($type == "list") { ?>
+            <table class="table table-hover">
+                <thead>
+                <tr class="table-info">
+                    <th scope="col">카테고리</th>
+                    <th scope="col">난이도</th>
+                    <th scope="col">수업명</th>
+                    <th scope="col">담당자</th>
+                    <th scope="col">수업일정</th>
+                    <th scope="col">수업현황</th>
+                    <th scope="col">수강여부</th>
+                </tr>
+                </thead>
+                
+            <? }?>
+			<?
+				for ($i = 0; $row = sql_fetch_array($result); $i++) {
+					$num = $list_num - $i;
+					
+					$idx = $row['idx'];
+					$class_name = $row['class_name'];
+					$class_difficulty = $row['class_difficulty'];
+					$class_notice = $row['class_notice'];
+					$class_image = $row['class_image'];
+					$class_stime = $row['class_stime'];
+					$class_etime = $row['class_etime'];
+					$c_inx = $row['c_inx'];
+					$c_name = $row['c_name'];
+					$class_regid = $row['class_regid'];
+					$class_regname = $row['class_regname'];
+					$class_regemail = $row['class_regemail'];
+					$g_group = $row['g_group'];
+					$class_status = $row['class_status'];
+					$class_regdate = $row['class_regdate'];
+					$room = $row['room_id'];
+					$join = $row['join_url'];
+
+					//수업종료 처리
+					$nowTime = date("Y-m-d H:i:s");
+                    
+                    if($class_stime > $nowTime) {
+	                    $class_status = "1";
+                    }  //시작시간이
+					
+					if($class_stime <= $nowTime && $class_etime >= $nowTime) {
+						$class_status = "2";
+					}
+					
+					if($class_etime < $nowTime) {
+						$class_status = "3";
+					}
+     
+					$sql_check = "UPDATE `tbl_class` SET class_status = '{$class_status}' WHERE idx = '{$idx}'";
+					sql_query($sql_check);
+     
+     
+					if ($class_status == '0') $class_status_str = '대기'; $sicon = "sbox02";
+					if ($class_status == '1') $class_status_str = '진행예정'; $sicon = "sbox01";
+					if ($class_status == '2') $class_status_str = '진행중'; $sicon = "sbox02";
+					if ($class_status == '3') $class_status_str = '종료'; $sicon = "sbox01";
+					?>
+                    <? if($type == "list") { ?>
+                        <tr>
+                            <td><?=$c_name?></td>
+                            <td><?=$class_difficulty?></td>
+                            <td><?=$class_name?></td>
+                            <td><?=$class_regname?></td>
+                            <td><?=$class_stime?><br><?=$class_etime?> [<?=$nowTime?>]</td>
+                            <td><?=$class_status_str?></td>
+                            <td>
+                                <div class="class-btn">
+		                            <? if($class_status == '2') { ?>
+                                        <? if(!$_SESSION['MEMBER_ID']) { ?>
+                                            <button class="btn btn-info" id="class-yes"><a href="class?id=<?=$idx?>">수업 참여</a></button>
+                                        <? } else { ?>
+                                            <button class="btn btn-info" id="class-yes"><a href="javascript:void(0);" onclick="javascript:swal('주의사항','로그인 후 이용해 주세요','info');">수업 참여</a></button>
+                                        <? } ?>
+		                            <? } else { ?>
+                                        <button class="btn btn-dark" id="class-no">현재 수업 시간이 아닙니다.</button>
+		                            <? } ?>
+                                </div>
+                            </td>
+                        </tr>
+                    <? } else { ?>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-course-inner">
+                            <div class="thumb">
+                                <img src="<?=$class_image?>" alt="img">
+                                <div class="cat-area">
+                                    <a class="cat bg-base" href="classroom"><?=$c_name?></a>
+                                </div>
+                            </div>
+                            <div class="details">
+                                <span class="state-yes"><?=$class_status_str?></span>
+                                <p class="status"><i class="fa fa-signal"></i> [<?=$g_group?>] <?=$class_difficulty?> </p>
+                                <div class="details-inner">
+                                    <h5><a href="class"><?=$class_name?></a></h5>
+                                    <div class="author media">
+                                        <div class="media-left">
+                                            <img src="assets/img/lectures/barista.png" alt="img">
+                                        </div>
+                                        <div class="media-body align-self-center">
+                                            <p><?=$class_regname?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cover">
+                                <p class="title"><a href="class"><?=$class_name?></a></p>
+                                <div class="class-date">
+                                    시작 : <?=$class_stime?>
+                                </div>
+                                <div class="class-time">
+                                    종료: <?=$class_etime?>
+                                </div>
+                                <h5 class="class-author">담당자 : <?=$class_regname?></h5>
+                                <div class="class-notice">
+                                    공지사항 :
+                                    <?=$class_notice?>
+                                </div>
+                                <div class="class-btn">
+                                    <? if($class_status == '2') { ?>
+	                                    <? if($_SESSION['MEMBER_ID']) { ?>
+                                            <button class="btn btn-info" id="class-yes"><a href="class?id=<?=$idx?>">수업 참여</a></button>
+	                                    <? } else { ?>
+                                            <button class="btn btn-info" id="class-yes"><a href="javascript:void(0);" onclick="javascript:swal('주의사항','로그인 후 이용해 주세요','info');">수업 참여</a></button>
+	                                    <? } ?>
+                                    <? } else { ?>
+                                        <button class="btn btn-dark" id="class-no">현재 수업 시간이 아닙니다.</button>
+                                    <? } ?>
+                                </div>
+                                <div class="class-act">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                    <i class="fa fa-cart-plus"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				<?
+                    }
+                }
+                ?>
+	            <? if($type == "list") { ?>
+                    </table>
+                <? } ?>
+        </div>
+        
+        <div class="paging" style="margin-bottom: 30px;">
+            <div class="text-center col-md-10"><?php echo get_paging(5, $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$qstr.'&amp;page='); ?></div>
+        </div>
+        <!--
+        <nav class="td-page-navigation text-center mb-5 mb-lg-0">
+            <ul class="pagination">
+                <li class="pagination-arrow"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+                <li><a class="active" href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li class="pagination-arrow"><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+            </ul>
+        </nav>
+        -->
+    </div>
+</div>
+<!--course-area end-->
+
+<?php
+	include_once("./include/footer.html");
+?>
+
+<!-- back to top area start -->
+<div class="back-to-top">
+    <span class="back-top"><i class="fa fa-angle-up"></i></span>
+</div>
+<!-- back to top area end -->
+
+
+<!-- all plugins here -->
+<script src="assets/js/vendor.js"></script>
+<!-- main js  -->
+<script src="assets/js/main.js"></script>
+</body>
+</html>

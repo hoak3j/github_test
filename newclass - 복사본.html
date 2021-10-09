@@ -1,0 +1,336 @@
+<?php
+
+include_once("./include/header.html");
+
+
+?>
+
+    <!-- page title start -->
+    <div class="page-title-area bg-overlay" style="background-image: url('./assets/img/banner_1.png')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-inner">
+                        <h2 class="page-title">수업개설</h2>
+                        <h5 class="page-comment">수업내용 설명</h5>
+                        <div class="text-right">
+                            <ul class="page-list">
+                                <li><a href="/">Home</a></li>
+                                <li><a href="classroom">Class Room</a></li>
+                                <li>수업개설</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- page title end -->
+
+    <!-- single blog page -->
+    <div class="main-blog-area pd-top-60 pd-bottom-60">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+        <!-- <script type="text/javascript" src="./admin/js/moment-locale-ko.js"></script> -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" type="text/css" href="/lib/ckeditor5/build/styles.css">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <!-- 수업개설 -------------------------->
+                    <div class="col-lg-12">
+                        <h2>수업 등록</h2>
+                        <table class="table" cellpadding="10px" >
+                            <form class="form-horizontal" name="fwrite" id="fwrite"  enctype="multipart/form-data">
+                          
+                                <input type="hidden" id="id_chk" value="1">
+                                <tr style="padding: 5px;">
+                                    <th width="170">등록자 아이디</th>
+                                    <td>
+                                        <input type="text" id="class_regid" class="inp half bg-success" placeholder="등록자 아이디(필수)" value="<?=$_SESSION['MEMBER_ID']?>" readonly required>
+                                    </td>
+                                    <th width="150">등록자 이름</th>
+                                    <td>
+                                        <input type="text" id="class_regname" class="inp half bg-success" placeholder="등록자 이름 (필수)" value="<?=$_SESSION['MEMBER_NAME']?>" readonly required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>소속</th>
+                                    <td>
+                                        <input type="text" id="g_group" class="inp half bg-success" placeholder="소속(필수)" value="<?=$_SESSION['MEMBER_GROUP']?>" readonly required>
+                                    </td>
+                                    <th>등록자 이메일</th>
+                                    <td>
+                                        <input type="text" id="class_regemail" class="inp half bg-success" placeholder="등록자 이메일 (필수)" value="<?=$_SESSION['MEMBER_MAIL']?>" readonly required>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>수업 제목</th>
+                                    <td>
+                                        <input type="text" id="class_name" class="inp full02" placeholder="수업 제목 (필수)" value="" required>
+                                    </td>
+                                    <th>카테고리</th>
+                                    <td>
+                                        <select class="select w50" id="class_category">
+                                            <option value="" selected>선택필수</option>
+							                <!-- <?php
+								                $sql = " select c_idx, c_code, c_name from `tbl_category` order by c_idx DESC ";
+								                $result = sql_query($sql);
+								                for ($i=0; $row=sql_fetch_array($result); $i++) {
+									                $c_idx = $row['c_idx'];
+									                $c_name = $row['c_name'];
+									                ?>
+                                                    <option value="<? echo $c_idx."|".$c_name?>"><?=$c_name?></option>
+								                <?php } ?> -->
+                                        </select>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <th>수업일정</th>
+                                    <td>
+                                        <div class="rowArea">
+                                            <ul>
+                                                <li><input type="text" id="class_stime" class="inp half" placeholder="수업 시작" value="" required></li>
+                                                <li> ~ </li>
+                                                <li><input type="text" id="class_etime" class="inp half" placeholder="수업 종료" value="" required></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <th>난이도</th>
+                                    <td>
+                                        <select class="select w50" id="class_difficulty">
+                                            <option value="" selected>선택</option>
+                                            <option value="입문과정">입문과정</option>
+                                            <option value="중급과정">중급과정</option>
+                                            <option value="고급과정">고급과정</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>수업 이미지</th>
+                                    <td colspan="3">
+                                        <div class="rowArea">
+                                            <input type="hidden" name="class_img" id="class_img" value="">
+                                            <ul>
+                                                <li><img id="select_img" src="/assets/img/no-img.png" width="100" height="70" style="border-style: solid; border-width: 4px;border-color: dodgerblue;"></li>
+                                                <li> </li>
+                                                <li><img onclick="pick_imgChange('/assets/img/lectures/barista.png');" src="/assets/img/lectures/barista.png" width="100" height="70"></li>
+                                                <li><img onclick="pick_imgChange('/assets/img/lectures/programming.png');" src="/assets/img/lectures/programming.png" width="100" height="70"></li>
+                                                <li><img onclick="pick_imgChange('/assets/img/lectures/drawing.jpg');" src="/assets/img/lectures/drawing.jpg" width="100" height="70"></li>
+                                                <li><img onclick="pick_imgChange('/assets/img/lectures/go.png');" src="/assets/img/lectures/go.png" width="100" height="70"></li>
+                                                <li><img onclick="pick_imgChange('/assets/img/lectures/ipad1.png');" src="/assets/img/lectures/ipad1.png" width="100" height="70"></li>
+                                                <li><img onclick="pick_imgChange('/assets/img/lectures/origami.png');" src="/assets/img/lectures/origami.png" width="100" height="70"></li>
+                                                <li><img onclick="pick_imgChange('/assets/img/lectures/swimming.png');" src="/assets/img/lectures/swimming.png" width="100" height="70"></li>
+                                                <!--<li><img onclick="pick_imgChange('/assets/img/lectures/dancing.png');" src="/assets/img/lectures/dancing.png" width="100" height="70"></li>-->
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>수업 공지사항</th>
+                                    <td colspan="3">
+                                        <textarea name="class_notice" id="class_notice" class="textarea full" style="width: 98%; height:50px;" placeholder="공지사항 (없으면 빈 칸)"></textarea>
+                                    </td>
+
+                                </tr>
+                                <tr class="cont">
+                                    <th>수업내용</th>
+                                    <td colspan="3">
+                                        <div class="rowArea" style="max-width: 1000px;max-height: 200px">
+                                            <div class="editor"></div>
+                                        </div>
+                                       
+                                    </td>
+                                </tr>
+                                <tr class="cont">
+                                    <th>학습목표</th>
+                                    <td colspan="3">
+                                        <div class="rowArea">
+                                            <ul>
+                                                <li>내용을 "|"(버티컬 라인) 으로 구분해주세요. (없으면 내용 삭제)</li>
+                                            </ul>
+                                        </div>
+                                        <textarea name="class_goal" id="class_goal" class="textarea full" style="width: 98%; height:50px;" placeholder="ex) 주제1|주제2|주제3"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                            <hr>
+                            <div class="btnbox">
+                                <div class="fc">
+                                    <a  href="javascript:void(0)" id="class_add" class="btn btn-base btn-lg btn-block">수업 등록</a>
+                            </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!-- 수업개설 end //-------------------->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- single blog page end -->
+    <?php
+    include_once("./include/footer.html");
+    ?>
+    <!-- back to top area start -->
+    <div class="back-to-top">
+        <span class="back-top"><i class="fa fa-angle-up"></i></span>
+    </div>
+    <!-- back to top area end -->
+<!-- <script src="/lib/ckeditor5/build/ckeditor.js"></script>
+<script src="/lib/ckeditor5/build/classicEditor.js"></script>
+<script src="/lib/ckeditor5/upload.editor.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#class_stime').datetimepicker();
+        $('#class_etime').datetimepicker({
+            //useCurrent: false //Important! See issue #1075
+        });
+        $("#class_stime").on("dp.change", function (e) {
+            $('#class_etime').data("DateTimePicker").minDate(e.date);
+        });
+        $("#class_etime").on("dp.change", function (e) {
+            $('#class_stime').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+</script>
+<script>
+    function pick_imgChange(ex){
+        var select_img = ex;
+        $("#class_img").val(select_img);
+        $("#select_img").attr("src", select_img);
+    }
+
+    /* == 수업 등록 ===============================*/
+    $("#class_add").click(function () {
+        var class_regid = $.trim($('#class_regid').val());
+        var class_regname = $.trim($('#class_regname').val());
+        var class_regemail = $.trim($('#class_regemail').val());
+        var g_group = $.trim($('#g_group').val());
+        var class_name = $.trim($('#class_name').val());
+        var class_image = $.trim($('#class_img').val());
+        var class_category = $.trim($("#class_category option:selected").val());
+        var class_difficulty = $.trim($('#class_difficulty').val());
+        var class_stime = $.trim($('#class_stime').val());
+        var class_etime = $.trim($('#class_etime').val());
+        var class_contents = editor.getData(); //내용
+        var class_notice = $.trim($('#class_notice').val());
+        var class_goal = $.trim($('#class_goal').val());
+
+        if (class_regid == '') {
+            swal("등록자 아이디는 필수 입력입니다.")
+                .then(function () {
+                    $('#class_regid').focus().select();
+                });
+            return false;
+        }
+        if (class_regname == '') {
+            swal("등록자 이름은 필수 입력입니다.")
+                .then(function () {
+                    $('#class_regname').focus().select();
+                });
+            return false;
+        }
+        if (class_regemail == '') {
+            swal("등록자 이메일은 필수 입력입니다.")
+                .then(function () {
+                    $('#class_regemail').focus().select();
+                });
+            return false;
+        }
+        if (g_group == '') {
+            swal("소속은 필수 입력입니다.")
+                .then(function () {
+                    $('#g_group').focus().select();
+                });
+            return false;
+        }
+        if (class_name == '') {
+            swal("수업제목은 필수 입력입니다.")
+                .then(function () {
+                    $('#class_name').focus().select();
+                });
+            return false;
+        }
+        if (class_category == '') {
+            swal("카테고리는 필수 입력입니다.")
+                .then(function () {
+                    $('#class_category').focus().select();
+                });
+            return false;
+        }
+        if (class_difficulty == '') {
+            swal("난이도는 필수 입력입니다.")
+                .then(function () {
+                    $('#class_difficulty').focus().select();
+                });
+            return false;
+        }
+
+        if (class_stime == '') {
+            swal("수업시작시간은 필수 입력입니다.")
+                .then(function () {
+                    $('#class_stime').focus().select();
+                });
+            return false;
+        }
+        if (class_etime == '') {
+            swal("수업시작시간은 필수 입력입니다.")
+                .then(function () {
+                    $('#class_etime').focus().select();
+                });
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            url: './admin/php/ajax_class_insert',
+            data: {
+                "class_regid": class_regid,
+                "class_regname": class_regname,
+                "class_regemail": class_regemail,
+                "g_group": g_group,
+                "class_difficulty": class_difficulty,
+                "class_name": class_name,
+                "class_image": class_image,
+                "class_category": class_category,
+                "class_stime": class_stime,
+                "class_etime": class_etime,
+                "class_contents": class_contents,
+                "class_notice": class_notice,
+                "class_goal": class_goal,
+            },
+            success: function (data) {
+                if ($.trim(data) == 'success') {
+                    swal("등록이 완료 되었습니다.")
+                        .then(function(){
+                            location.replace('classroom');
+                        });
+                } else if ($.trim(data) == 'fail') {
+                    swal("등록오류", "입력란을 확인해 주세요.", "warning");
+                    return false;
+                } else {
+                    swal(data);
+                    return false;
+                }
+            }
+        });    //end ajax
+
+    });
+
+</script>
+
+
+    <!-- all plugins here -->
+<!--    <script src="assets/js/vendor.js"></script>-->
+    <!-- main js  -->
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+/*--------------------------------------------------
+    ##Footer
+---------------------------------------------------*/
+.footer-call-to-action {
+	margin-bottom: -140px;
+	position: relative;
+	z-index: 2;
+}
+.footer-area {
+	position: relative;
+	padding-top: 110px;
+	background: #242937;
+ 	.widget {
+ 		position: relative;
+ 		z-index: 2;
+ 		margin-bottom: 70px;
+ 	}
+	.widget-title {
+		margin-bottom: 27px;
+		position: relative;
+		color: #fff;
+		font-weight: 500;
+	}
+	.widget_contact {
+		.details {
+			padding: 0;
+			li {
+				margin-bottom: 15px;
+			    position: relative;
+	    		list-style: none;
+	    		color: #fff;
+				i {
+					margin-right: 14px;
+					color: #fff;
+					position: absolute;
+				    left: 0;
+				    top: 6px;
+				}
+				&:last-child {
+					margin-bottom: 0;
+				}
+				.time {
+					font-size: 12px;
+					margin-top: 3px;
+				}
+			}
+			&.style-icon {
+				li {
+					padding-left: 25px;
+					i {
+						color: var(--main-color);
+					}
+				}
+			}
+		}
+		.social-media-2 {
+			margin-top: 30px;
+		}
+	}
+	.widget_nav_menu {
+		ul {
+			margin: 0;
+			padding: 0;
+			li {
+				list-style: none;
+				margin-bottom: 12px;
+				position: relative;
+				color: #fff;
+				&:hover {
+					a {
+						color: var(--main-color);
+					}
+				}
+			}
+		}
+	}
+	.widget_instagram {
+		.instagram-inner {
+			padding-top: 6px;
+			padding-left: 10px;
+			.thumb {
+				margin-bottom: 10px;
+				img {
+					width: 100%;
+				}
+			}
+		}
+	}
+}
+
+.footer-bottom {
+	padding: 25px 0;
+	position: relative;
+	z-index: 2;
+	background: #101c32;
+	a {
+		img {
+			max-width: 150px;
+		}
+	}
+	p {
+		margin-bottom: 0;
+		color: #fff;
+	}
+}

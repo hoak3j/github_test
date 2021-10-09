@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>라이브에듀</title>
+    <link rel=icon href="/assets/img/favicon.ico" sizes="20x20" type="image/png">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="assets/css/vendor.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="assets/js/bootstrap.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/assets/js/common.js"></script>
+
+</head>
+<body>
+
+<!-- preloader area start -->
+<!--<div class="preloader" id="preloader">
+    <div class="preloader-inner">
+        <div class="spinner">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
+        </div>
+    </div>
+</div>-->
+<!-- preloader area end -->
+
+<div class="body-overlay" id="body-overlay"></div>
+
+<!-- navbar start -->
+<div class="navbar-area">
+    <nav class="navbar navbar-area-1 navbar-area navbar-expand-lg">
+        <div class="container nav-container">
+            <div class="responsive-mobile-menu">
+                <button class="menu toggle-btn d-block d-lg-none" data-target="#livedu_main_menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-left"></span>
+                    <span class="icon-right"></span>
+                </button>
+            </div>
+            <div class="logo">
+                <a href="/"><img src="../assets/img/logo.png" height="100" alt="img"></a>
+            </div>
+
+            <div class="nav-left-part nav-right-part-desktop collapse navbar-collapse" id="livedu_main_menu">
+                <ul class="navbar-nav menu-open">
+                    <li class="menu-item-has-children current-menu-item">
+                        <a href="/classroom">Classroom</a>
+                        <ul class="sub-menu">
+	                        <? if($_SESSION['MEMBER_LEVEL'] >= 3) { ?>
+                                <li><a href="/newclass.html">수업개설</a></li>
+	                        <? } ?>
+                            <li><a href="/classroom">수업목록</a></li>
+                            <li><a href="/bbs">게시판</a></li>
+
+                            <? if ( $_SESSION['MEMBER_ID'] ) { ?>
+                            <li><a href="/myroom">마이룸</a></li>
+                            <? } else { ?>
+                             <li><a href="javascript:void(0)" onclick="swal('로그인 후 이용가능합니다.')">마이룸</a></li>
+                            <? } ?>
+
+                        </ul>
+                    </li>
+                    <li class="faqMenu">
+                        <a href="/faq">FAQ</a>
+                    </li>
+                    <li class="newclass">
+                        <a href="/newclass.html">newclass</a>
+                    </li>
+                    <li class="contactUs"><a href="/contact">Contact Us</a></li>
+	                <? if($_SESSION['MEMBER_LEVEL'] >= 3) { ?>
+                    <li class="ml-2"><a href="/admin/" target="_blank">관리자페이지</a></li>
+	                <? } ?>
+                 
+                </ul>
+            </div>
+            <div class="nav-right-part nav-right-part-desktop style-white">
+                <ul class="mb-0">
+                    <? if ( $_SESSION['MEMBER_ID'] ) { ?>
+                        <li><a href="/myroom"><?= $_SESSION['MEMBER_NAME'] ?></a></li>
+                        <li class="ml-2"><a href="/act/logout">LOGOUT</a></li>
+                    <? } else { ?>
+                    <li class="ml-2"><a class="btn btn-red" id="login_btn" data-toggle="modal" data-target="#loginModal">LOGIN</a></li>
+                    <? } ?>
+                    <li class="language">KO</li>
+                    <li class="language">EN</li>
+                    <li class="language">CN</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<!-- navbar end -->

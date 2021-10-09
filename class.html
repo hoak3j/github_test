@@ -1,0 +1,376 @@
+<?php
+session_start();
+include_once("./admin/lib/common.php");
+include_once("./include/header.html");
+
+$idx = (int)$_GET['id'];
+$g_group = $_SESSION['MEMBER_GROUP'];
+$m_id = $_SESSION['MEMBER_ID'];
+$join_ip = $_SERVER['REMOTE_ADDR'];
+
+
+if($idx){
+    //자기 소속만 볼 수 있음
+    $sql = "SELECT * FROM `tbl_class` WHERE idx = '{$idx}' AND g_group = '{$g_group}' ";
+	//$sql = "SELECT * FROM `tbl_class` WHERE idx = '{$idx}' ";
+	$row = sql_fetch($sql);
+ 
+	$idx = $row['idx'];
+	$class_name = $row['class_name'];
+	$class_difficulty = $row['class_difficulty'];
+	$class_notice = $row['class_notice'];
+	$class_contents = $row['class_contents'];
+	$class_image = $row['class_image'];
+	$class_stime = $row['class_stime'];
+	$class_etime = $row['class_etime'];
+	$c_inx = $row['c_inx'];
+	$c_name = $row['c_name'];
+	$class_regid = $row['class_regid'];
+	$class_regname = $row['class_regname'];
+	$class_regemail = $row['class_regemail'];
+    $g_group = $row['g_group'];
+	$class_goal = $row['class_goal'];
+	$class_status = $row['class_status'];
+	$class_regdate = $row['class_regdate'];
+	$room = $row['room_id'];
+	$join = $row['join_url'];
+
+    $sql_check = "SELECT idx FROM `tbl_class_join` WHERE m_id = '{$m_id}' AND class_idx = '{$idx}'";
+    $row_check = sql_fetch($sql_check);
+    
+    if(!$row_check['idx']) {
+	    $sql_join = "INSERT INTO `tbl_class_join`
+                SET class_idx = '{$idx}',
+                    c_name = '{$c_name}',
+                    class_name = '{$class_name}',
+                    class_stime = '{$class_stime}',
+                    class_etime = '{$class_etime}',
+                    class_status = '{$class_status}',
+                    m_id = '{$m_id}',
+                    join_time = now(),
+                    join_ip = '{$join_ip}'
+            ";
+	   sql_query($sql_join);
+       echo "<script>swal('수강등록이 완료 되었습니다.')</script>";
+    }
+}
+
+
+?>
+    <!-- page title start -->
+    <div class="page-title-area bg-overlay" style="background-image: url('./assets/img/banner_1.png')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-inner">
+                        <h2 class="page-title">수 업</h2>
+                        <h5 class="page-comment">수업내용 설명</h5>
+                        <div class="text-right">
+                            <ul class="page-list">
+                                <li><a href="/">Home</a></li>
+                                <li><a href="classroom">Class Room</a></li>
+                                <li>수업</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- page title end -->
+
+    <!-- single blog page -->
+    <div class="main-blog-area pd-top-120 pd-bottom-90">
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <? if($idx) { ?>
+                <div class="col-lg-8 col-12">
+                    <div class="course-details-page">
+                        <div class="course-details-meta-list">
+                            <input type="hidden" id="class_idx" value="<?=$idx?>">
+                            <input type="hidden" id="class_name" value="<?=$class_name?>">
+                            <div class="row bg-gray pd-20">
+                                <div class="col-md-3 align-self-center">
+                                    <div class="media">
+                                        <div class="media-body align-self-center">
+                                            <span>담당자</span>
+                                            <h6><?=$class_regname?></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-4 mt-md-0">
+                                    <div class="row">
+                                        <div class="col-md-6 align-self-center">
+                                            <span>카테고리</span>
+                                            <h6><?=$c_name?></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 mt-4 mt-md-0 align-self-center text-md-right">
+                                    <div class="media">
+                                        <div class="media-body align-self-center">
+                                            <span>수업일</span>
+                                            <h6><?=substr($class_stime,0,10)?> ~ <?=substr($class_etime,0,10)?></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h5 class="sub-title"><?=$class_difficulty?></h5>
+                                    <h3 class="title"><?=$class_name?></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"><hr></div>
+                        <div class="course-details-content">
+	                        <div><?=$class_contents?></div>
+                            <hr>
+	                        <? if($class_goal) { ?>
+                            <div class="single-list-inner style-check">
+                                <h4>수업 주제</h4>
+                                <ul>
+                                    <?
+                                    $goal = explode("|", $class_goal);
+                                    for($i=0; $i<count($goal); $i++) {
+                                    ?>
+                                    <li><i class="fa fa-check"></i><?=$goal[$i]?></li>
+                                    <? } ?>
+                                </ul>
+                            </div>
+                            <? } ?>
+                        </div>
+                        <hr>
+                        <!--
+                        <div class="course-details-content">
+                            <h4 class="title">상세정보</h4>
+                            <div class="course-feature-area">
+                                <ul class="row">
+                                    <li class="col-6">
+                                        강좌수
+                                    </li>
+                                    <li class="col-6">
+                                        <span>12</span>
+                                    </li>
+                                    <li class="col-6">
+                                        평가 테스트
+                                    </li>
+                                    <li class="col-6">
+                                        <span>있음</span>
+                                    </li>
+                                    <li class="col-6">
+                                        수업시간
+                                    </li>
+                                    <li class="col-6">
+                                        <span>3 시간</span>
+                                    </li>
+                                    <li class="col-6">
+                                        수업수준
+                                    </li>
+                                    <li class="col-6">
+                                        <span>모든 사용자</span>
+                                    </li>
+                                    <li class="col-6">
+                                        언어
+                                    </li>
+                                    <li class="col-6">
+                                        <span>한국어</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        -->
+
+                    </div>
+                </div>
+                <? } else { ?>
+
+                <div class="col-lg-8 col-12">
+                    <div class="course-details-page">
+                        <div class="course-details-meta-list">
+
+                        </div>
+
+                        <div class="course-details-content">
+                            <h2>소속이 다르거나 잘못된 접근입니다.</h2>
+                            <a href="javascript:history.back();">뒤로 이동</a>
+                        </div>
+
+                        
+
+                    </div>
+                </div>
+                <? } ?>
+                <!-- sidebar -->
+                <div class="col-lg-4 col-12">
+                    <div class="td-sidebar">
+                        <div class="widget widget_class">
+                            <? if($class_status == "2") { ?>
+                            <a class="btn btn-basic w-100" id="class_join" href="javascript:void(0);">수강하기</a>
+                            <? } else{ ?>
+                            <a class="btn btn-red w-100" href="#">수강시간이 아닙니다.</a>
+                            <? } ?>
+                            
+                        </div>
+
+                        <div class="widget widget_tags">
+                            <h4 class="widget-title">태그</h4>
+                            <div class="tagcloud">
+                                <a href="classroom?tg=AI">AI</a>
+                                <a href="classroom?tg=%EC%A4%91%EA%B8%89%EA%B3%BC%EC%A0%95">중급과정</a>
+                                <a href="classroom?tg=%ED%8C%8C%EC%9D%B4%EC%8D%AC">파이썬</a>
+                                <a href="classroom?tg=%EC%82%AC%ED%9A%8C%EC%83%9D%ED%99%9C">사회생활</a>
+                                <a href="classroom?tg=%EA%B0%9C%EB%B0%9C%EC%9E%90">개발자</a>
+                                <a href="classroom?tg=%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0">빅데이터</a>
+                            </div>
+                        </div>
+                        
+                        <div class="widget widget-recent-post">
+                            <h4 class="widget-title">추천 수업</h4>
+                            <ul>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-body align-self-center">
+                                            <h5 class="title"><a href="class">초보개발자를 위한 인문 강좌</a></h5>
+                                            <div class="post-info"><i class="fa fa-calendar-times-o"></i> 2021-07-20</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-body align-self-center">
+                                            <h5 class="title"><a href="class">초보개발자를 위한 인문 강좌</a></h5>
+                                            <div class="post-info"><i class="fa fa-calendar-times-o"></i> 2021-07-20</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-body align-self-center">
+                                            <h5 class="title"><a href="class">초보개발자를 위한 인문 강좌</a></h5>
+                                            <div class="post-info"><i class="fa fa-calendar-times-o"></i> 2021-07-20</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-body align-self-center">
+                                            <h5 class="title"><a href="class"> 초보개발자를 위한 인문 강좌 초보개발자를 위한 인문 강좌</a></h5>
+                                            <div class="post-info"><i class="fa fa-calendar-times-o"></i> 2021-07-20</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-body align-self-center">
+                                            <h5 class="title"><a href="class">초보개발자를 위한 인문 강좌</a></h5>
+                                            <div class="post-info"><i class="fa fa-calendar-times-o"></i> 2021-07-20</div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <?php
+                        //카테고리 데이터 불러오기
+                        $filename = "./data/category.json";
+                        if(file_exists($filename)){
+                            $fp = fopen($filename,"r");
+                            $json_category = fread($fp, filesize($filename));
+                        } else {
+                            echo "json_file_Error";
+                        }
+                        fclose($fp);
+
+                        $data_array = json_decode($json_category, true);
+
+                        // handle error
+                        if (json_last_error() > 0) {
+                            echo json_last_error_msg() . PHP_EOL;
+                        }
+                        ?>
+
+                        <div class="widget widget_catagory">
+                            <h4 class="widget-title">카테고리</h4>
+                            <ul class="catagory-items">
+                                <?php
+                                $i = 0;
+                                while ($i < count($data_array)) //i가 10보다 작거나 같을 때 반복합니다
+                                {
+                                    $idx = $data_array[$i]['idx'];
+                                    $category = $data_array[$i]['category'];
+                                    $count = $data_array[$i]['count'];
+
+                                    ?>
+                                    <li><a href="classroom?ct=<?=$idx?>"><i class="fa fa-angle-right"></i><?=$category?> (<?=$count?>)</a></li>
+                                    <?php
+                                    $i++;
+                                }
+                                ?>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.sidebar -->
+            </div>
+
+        </div>
+    </div>
+    <!-- single blog page end -->
+
+
+<?php
+include_once("./include/footer.html");
+?>
+
+    <!-- back to top area start -->
+    <div class="back-to-top">
+        <span class="back-top"><i class="fa fa-angle-up"></i></span>
+    </div>
+    <!-- back to top area end -->
+
+<script>
+    $(function () {
+       
+        $("#class_join").click(function(){
+            var class_idx = $.trim($('#class_idx').val());
+            var class_name = $.trim($('#class_name').val());
+
+            $.ajax({
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                url: './act/ajax_class_log',
+                data: {
+                    "class_idx": class_idx,
+                    "class_name": class_name,
+                },
+                success: function (data) {
+                    if ($.trim(data) == 'success') {
+
+                        
+                        window.open('<?=$join?>');
+                        //window.open('https://uprism.io/room/146971356');
+                        $(this).attr('target','_blank');
+
+                    } else if ($.trim(data) == 'fail') {
+                        swal("등록오류", "입력란을 확인해 주세요.", "warning");
+                        return false;
+                    } else {
+                        swal(data);
+                        return false;
+                    }
+                }
+            });    //end ajax
+        });
+    });
+</script>
+
+
+    <!-- all plugins here -->
+    <script src="assets/js/vendor.js"></script>
+    <!-- main js  -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

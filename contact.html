@@ -1,0 +1,104 @@
+<?php
+session_start();
+include_once("./admin/lib/common.php");
+
+include_once("./include/header.html");
+?>
+<script src="/assets/js/contact.js"></script>
+    <!-- page title start -->
+    <div class="page-title-area bg-overlay" style="background-image: url('./assets/img/banner.png')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-inner">
+                        <h2 class="page-title">CONTACT US</h2>
+                        <h5 class="page-comment">궁금하신 점이나 사업 관련 문의하시면 확인 후 답변드리겠습니다.</h5>
+                        <div class="text-right">
+                            <ul class="page-list">
+                                <li><a href="/">Home</a></li>
+                                <li>Contact Us</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- page title end -->
+
+    <!-- contact area start -->
+    <div class="contact-area pd-top-60 pd-bottom-100">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2 class="title">Contact Us</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 col-md-6">
+                    <div class="contact-page-thumb thumb" style="background-image: url('./assets/img/contactus.png')"></div>
+                </div>
+                <div class="col-lg-7 col-md-6 align-self-center">
+                    <form class="contact-form-inner  mt-5 mt-md-0">
+                        <div class="row custom-gutters-20">
+                            <div class="col-lg-6">
+                                <label class="single-input-inner style-bg-border">
+                                    <input type="text" id="company" placeholder="회사명">
+                                </label>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="single-input-inner style-bg-border">
+                                    <input type="text" id="name" placeholder="이름" required>
+                                </label>
+                            </div>
+                            <div class="col-6">
+                                <label class="single-input-inner style-bg-border">
+                                    <input type="text" id="email" placeholder="Email" required>
+                                </label>
+                            </div>
+                            <div class="col-6">
+                                <label class="single-input-inner style-bg-border">
+                                    <input type="text" id="tel" placeholder="연락처" required>
+                                </label>
+                            </div>
+                            <div class="col-12">
+                                <label class="single-input-inner style-bg-border">
+                                    <textarea id="content" placeholder="문의내용" required></textarea>
+                                </label>
+                            </div>
+                            <div class="col-6">
+                                <a href="javascript:void(0);" class="btn btn-base btn-lg btn-block" id="contact_submit" >문의하기</a>
+                            </div>
+                            <div class="col-6">
+                                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                                <span id="captcha" class="g-recaptcha" data-sitekey="6LfgAGMUAAAAALFzGqyPG6thZyaODwTRje5OWiXE"></span>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- contact area end-->
+
+    <div class="contact-g-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3261.3641921214844!2d129.12882191605223!3d35.17247436531074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x356893f1f6c62ea3%3A0x73779b3ec30bfc55!2z65287J2067iM7JeQ65OA!5e0!3m2!1sko!2skr!4v1628821446235!5m2!1sko!2skr"></iframe>
+    </div>
+
+<?php
+include_once("./include/footer.html");
+?>
+
+
+    <!-- back to top area start -->
+    <div class="back-to-top">
+        <span class="back-top"><i class="fa fa-angle-up"></i></span>
+    </div>
+    <!-- back to top area end -->
+
+
+    <!-- all plugins here -->
+    <script src="assets/js/vendor.js"></script>
+    <!-- main js  -->
+<!--    <script src="assets/js/main.js"></script>-->
+</body>
+</html>
